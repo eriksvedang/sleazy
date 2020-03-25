@@ -5,6 +5,7 @@ module Main where
 import Types
 import AST
 import ToC
+import ToLisp
 import qualified Data.Text as Text
 import Data.Text (Text(..))
 
@@ -26,6 +27,7 @@ ex3 = Func IntTy "sum" [Param (NamedTy "int*") "arr"]
           ])
 
 toCStr = Text.unpack . toC
+toLispStr = Text.unpack . toLisp 0
 
 main :: IO ()
 main = do
@@ -35,4 +37,10 @@ main = do
   putStrLn (toCStr ex2)
   putStrLn "---"
   putStrLn (toCStr ex3)
+  putStrLn "------"
+  putStrLn (toLispStr ex1)
+  putStrLn "---"
+  putStrLn (toLispStr ex2)
+  putStrLn "---"
+  putStrLn (toLispStr ex3)
   putStrLn "---"

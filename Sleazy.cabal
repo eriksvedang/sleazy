@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d66e661958c28e12eac59423103d872788fc77e9f5a61abf45411874243198f9
+-- hash: 21e3320f41c35b8b38fd64254e6e6089d5ab8569cc741b1ce6c22391eed2b503
 
 name:           Sleazy
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       AST
       ToC
+      ToLisp
       Types
   other-modules:
       Paths_Sleazy

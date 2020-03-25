@@ -44,8 +44,6 @@ tyToC IntTy = "int"
 tyToC FloatTy = "float"
 tyToC VoidTy = "void"
 
-
-
 callMode :: Text -> CallMode
 callMode functionName =
   case Map.lookup functionName mappings of
