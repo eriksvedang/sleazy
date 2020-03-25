@@ -6,14 +6,25 @@ import Types
 import AST
 import qualified Data.Text as Text
 import Data.Text (Text(..))
+import qualified Data.Map as Map
+import Data.Map (Map(..))
+
+data CallMode = FExpr | Binary | Unary deriving (Eq, Show)
 
 toC :: AST -> Text
 toC (Func ret name params body) =
   tyToC ret <> " " <> name <> "(" <> Text.intercalate ", " (map paramToC params) <> ") {\n" <> toC body <> "}"
 toC (Do forms) =
-  Text.intercalate ";\n" (map toC forms) <> ";\n"
+  Text.concat (map ((<> ";\n") . toC) forms)
 toC (Call name args) =
-  name <> "(" <> Text.intercalate ", " (map toC args) <> ")"
+  case callMode name of
+    FExpr -> name <> "(" <> Text.intercalate ", " (map toC args) <> ")"
+    Binary -> let [a, b] = args
+              in  toC a <> " " <> name <> " " <> toC b
+    Unary -> let [a] = args
+             in  toC a <> name
+toC (Return expr) =
+  "return " <> toC expr
 toC (Name name) =
   name
 toC (String s) =
@@ -27,3 +38,13 @@ tyToC :: Ty -> Text
 tyToC (NamedTy name) = name
 tyToC IntTy = "int"
 tyToC FloatTy = "float"
+tyToC VoidTy = "void"
+
+
+
+callMode :: Text -> CallMode
+callMode functionName =
+  case Map.lookup functionName mappings of
+    Just found -> found
+    Nothing -> FExpr
+  where mappings = Map.fromList [("+", Binary)]

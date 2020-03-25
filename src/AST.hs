@@ -14,6 +14,8 @@ data AST = Func { funcRetTy :: Ty
          | Call { callName :: Text
                 , callArgs :: [AST]
                 }
+         | Return { returnExpr :: AST
+                  }
          | Name { name :: Text
                 }
          | String { str :: Text

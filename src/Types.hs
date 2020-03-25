@@ -6,4 +6,5 @@ import Data.Text (Text(..))
 data Ty = NamedTy Text
         | IntTy
         | FloatTy
+        | VoidTy
         deriving (Show, Eq)

@@ -14,10 +14,15 @@ ex1 = Func IntTy "main" []
           , Call "printf" [Name "x"]
           ])
 
+ex2 = Func VoidTy "f" [Param IntTy "x", Param IntTy "y"]
+      (Do [ Return (Call "+" [Name "x", Name "y"])])
+
 toCStr = Text.unpack . toC
 
 main :: IO ()
 main = do
-  putStrLn "Sleazy"
-  putStrLn "ex1:"
+  putStrLn "---"
   putStrLn (toCStr ex1)
+  putStrLn "---"
+  putStrLn (toCStr ex2)
+  putStrLn "---"
