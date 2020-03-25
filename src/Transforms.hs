@@ -3,6 +3,7 @@
 module Transforms where
 
 import AST
+import Types
 import qualified Data.Text as Text
 import Data.Text (Text(..))
 import Data.Maybe (mapMaybe)
@@ -23,7 +24,12 @@ unlessTransform =
 xTransform =
   Transform
   (Name "x") --(Call ">" [(LogicVar "a"), (LogicVar "b")])
-  (Name "REDACTED")
+  (Call "X" []) -- (Name "REDACTED")
+
+-- xParamTransform =
+--   Transform
+--   (Param IntTy "x")
+--   (Param FloatTy "X")
 
 transforms = [unlessTransform, xTransform]
 
