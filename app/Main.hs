@@ -15,7 +15,15 @@ ex1 = Func IntTy "main" []
           ])
 
 ex2 = Func VoidTy "f" [Param IntTy "x", Param IntTy "y"]
-      (Do [ Return (Call "+" [Name "x", Name "y"])])
+      (Do [ Control "if" [Call ">" [Name "x", Name "y"]]
+            (Do [Return (Call "+" [Name "x", Name "y"])])])
+
+ex3 = Func IntTy "sum" [Param (NamedTy "int*") "arr"]
+      (Do [ Decl IntTy "total" (Name "0")
+          , Control "for" [Decl IntTy "i" (Name "0"), Call "<" [Name "i", Name "10"], Call "++" [Name "i"]]
+            (Do [Call "+=" [(Name "total"), (Name "1")]])
+          , Return (Name "total")
+          ])
 
 toCStr = Text.unpack . toC
 
@@ -25,4 +33,6 @@ main = do
   putStrLn (toCStr ex1)
   putStrLn "---"
   putStrLn (toCStr ex2)
+  putStrLn "---"
+  putStrLn (toCStr ex3)
   putStrLn "---"

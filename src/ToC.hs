@@ -29,6 +29,10 @@ toC (Name name) =
   name
 toC (String s) =
   "\"" <> s <> "\""
+toC (Decl t n expr) =
+  tyToC t <> " " <> n <> " = " <> toC expr
+toC (Control n exprs body) =
+  n <> "(" <> Text.intercalate "; " (map toC exprs) <> ") {\n" <> toC body <> "}"
 
 paramToC :: Param -> Text
 paramToC (Param t n) =
@@ -47,4 +51,18 @@ callMode functionName =
   case Map.lookup functionName mappings of
     Just found -> found
     Nothing -> FExpr
-  where mappings = Map.fromList [("+", Binary)]
+  where mappings = Map.fromList [ ("+", Binary)
+                                , ("+=", Binary)
+                                , ("-", Binary)
+                                , ("-=", Binary)
+                                , ("*", Binary)
+                                , ("*=", Binary)
+                                , ("/", Binary)
+                                , ("/=", Binary)
+                                , ("++", Unary)
+                                , ("--", Unary)
+                                , ("<", Binary)
+                                , ("<=", Binary)
+                                , (">", Binary)
+                                , (">=", Binary)
+                                ]

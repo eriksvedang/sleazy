@@ -20,6 +20,14 @@ data AST = Func { funcRetTy :: Ty
                 }
          | String { str :: Text
                   }
+         | Decl { declTy :: Ty
+                , declName :: Text
+                , declExpr :: AST
+                }
+         | Control { ctrlName :: Text
+                   , ctrlExprs :: [AST]
+                   , ctlrBody :: AST
+                   }
          deriving (Show, Eq)
 
 data Param = Param { paramType :: Ty
