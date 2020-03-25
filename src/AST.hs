@@ -28,6 +28,8 @@ data AST = Func { funcRetTy :: Ty
                    , ctrlExprs :: [AST]
                    , ctlrBody :: AST
                    }
+         | LogicVar { logicVarName :: Text -- Used by the code transformations
+                    }
          deriving (Show, Eq)
 
 data Param = Param { paramType :: Ty

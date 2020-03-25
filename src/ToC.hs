@@ -33,6 +33,8 @@ toC (Decl t n expr) =
   tyToC t <> " " <> n <> " = " <> toC expr
 toC (Control n exprs body) =
   n <> "(" <> Text.intercalate "; " (map toC exprs) <> ") {\n" <> toC body <> "}"
+toC (LogicVar var) =
+  "?" <> var
 
 paramToC :: Param -> Text
 paramToC (Param t n) =

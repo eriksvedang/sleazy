@@ -6,6 +6,7 @@ import Types
 import AST
 import ToC
 import ToLisp
+import Transforms
 import qualified Data.Text as Text
 import Data.Text (Text(..))
 
@@ -16,7 +17,7 @@ ex1 = Func IntTy "main" []
           ])
 
 ex2 = Func VoidTy "f" [Param IntTy "x", Param IntTy "y"]
-      (Do [ Control "if" [Call ">" [Name "x", Name "y"]]
+      (Do [ Control "unless" [Call ">" [Name "x", Name "y"]]
             (Do [Return (Call "+" [Name "x", Name "y"])])])
 
 ex3 = Func IntTy "sum" [Param (NamedTy "int*") "arr"]
@@ -26,21 +27,21 @@ ex3 = Func IntTy "sum" [Param (NamedTy "int*") "arr"]
           , Return (Name "total")
           ])
 
-toCStr = Text.unpack . toC
+toCStr = Text.unpack . toC . transform
 toLispStr = Text.unpack . toLisp 0
 
 main :: IO ()
 main = do
-  putStrLn "---"
-  putStrLn (toCStr ex1)
+  -- putStrLn "---"
+  -- putStrLn (toCStr ex1)
   putStrLn "---"
   putStrLn (toCStr ex2)
   putStrLn "---"
-  putStrLn (toCStr ex3)
-  putStrLn "------"
-  putStrLn (toLispStr ex1)
-  putStrLn "---"
-  putStrLn (toLispStr ex2)
-  putStrLn "---"
-  putStrLn (toLispStr ex3)
-  putStrLn "---"
+  -- putStrLn (toCStr ex3)
+  -- putStrLn "------"
+  -- putStrLn (toLispStr ex1)
+  -- putStrLn "---"
+  -- putStrLn (toLispStr ex2)
+  -- putStrLn "---"
+  -- putStrLn (toLispStr ex3)
+  -- putStrLn "---"
