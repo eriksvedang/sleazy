@@ -13,7 +13,7 @@ data CallMode = FExpr | Binary | Unary deriving (Eq, Show)
 
 toC :: AST -> Text
 toC (Func ret name params body) =
-  tyToC ret <> " " <> name <> "(" <> Text.intercalate ", " (map paramToC params) <> ") {\n" <> toC body <> "}"
+  tyToC ret <> " " <> name <> "(" <> Text.intercalate ", " (map toC params) <> ") {\n" <> toC body <> "}"
 toC (Do forms) =
   Text.concat (map ((<> ";\n") . toC) forms)
 toC (Call name args) =
@@ -35,9 +35,7 @@ toC (Control n exprs body) =
   n <> "(" <> Text.intercalate "; " (map toC exprs) <> ") {\n" <> toC body <> "}"
 toC (LogicVar var) =
   "?" <> var
-
-paramToC :: Param -> Text
-paramToC (Param t n) =
+toC (Param t n) =
   tyToC t <> " " <> n
 
 tyToC :: Ty -> Text

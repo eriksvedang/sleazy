@@ -6,7 +6,7 @@ import Data.Text (Text(..))
 
 data AST = Func { funcRetTy :: Ty
                 , funcName :: Text
-                , funcParams :: [Param]
+                , funcParams :: [AST]
                 , funcBody :: AST
                 }
          | Do { doForms :: [AST]
@@ -28,11 +28,9 @@ data AST = Func { funcRetTy :: Ty
                    , ctrlExprs :: [AST]
                    , ctlrBody :: AST
                    }
+         | Param { paramType :: Ty
+                 , paramName :: Text
+                 }
          | LogicVar { logicVarName :: Text -- Used by the code transformations
                     }
          deriving (Show, Eq)
-
-data Param = Param { paramType :: Ty
-                   , paramName :: Text
-                   }
-           deriving (Show, Eq)

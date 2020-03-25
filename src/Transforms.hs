@@ -22,7 +22,7 @@ unlessTransform =
 
 xTransform =
   Transform
-  (Call ">" [(LogicVar "a"), (LogicVar "b")])
+  (Name "x") --(Call ">" [(LogicVar "a"), (LogicVar "b")])
   (Name "REDACTED")
 
 transforms = [unlessTransform, xTransform]
@@ -34,6 +34,7 @@ transform ast =
     (Do exprs) -> Do (map transform exprs)
     (Call name args) -> Call name (map transform args)
     (Control name exprs body) -> Control name (map transform exprs) (transform body)
+    (Return expr) -> Return (transform expr)
     x -> x
 
 applyTransforms :: [Transform] -> AST -> AST
@@ -55,6 +56,10 @@ matchExprWithTransform ast transform = match' ast (transformIn transform)
           if a == b
           then Just (transform, Map.fromList (concat (zipWith createMapping argsA argsB)))
           else Nothing
+        match' (Name a) (Name b) =
+          if a == b
+          then Just (transform, Map.empty)
+          else Nothing
         match' _ _ =
           Nothing
 
@@ -65,9 +70,11 @@ createMapping _ _ = []
 substitute :: Map Text AST -> AST -> AST
 substitute mappings expr =
   case expr of
-    (Func ret name params body) -> Func ret name params (sub body)
+    (Func ret name params body) -> Func ret name (map sub params) (sub body)
     (Control name exprs body) -> Control name (map sub exprs) (sub body)
     (Call name args) -> Call name (map sub args)
+    (Return expr) -> Return (sub expr)
+    (Param t name) -> Param t name
     (LogicVar name) ->
       case Map.lookup name mappings of
         Just found -> found

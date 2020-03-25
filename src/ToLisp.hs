@@ -19,7 +19,7 @@ addIndent lvl = build lvl
 toLisp :: Integer -> AST -> Text
 toLisp indent (Func _ name params body) =
   addIndent indent <>
-  "(define " <> name <> " (" <> Text.intercalate " " (map paramToLisp params) <> ")\n" <> toLisp (indent + 2) body <> ")"
+  "(define " <> name <> " (" <> Text.intercalate " " (map (toLisp indent) params) <> ")\n" <> toLisp (indent + 2) body <> ")"
 toLisp indent (Do forms) =
   addIndent indent <> "(do\n" <> addIndent (indent + 2) <>
   Text.intercalate ("\n" <> addIndent (indent + 2)) (map (toLisp (indent + 2)) forms)
@@ -37,6 +37,5 @@ toLisp indent (Decl t n expr) =
 toLisp indent (Control n exprs body) =
   "(" <> n <> " " <> Text.intercalate " " (map (toLisp indent) exprs) <> "\n" <>
   toLisp (indent + 2) body <> ")"
-
-paramToLisp :: Param -> Text
-paramToLisp (Param _ n) = n
+toLisp indent (Param _ n) =
+  n

@@ -28,7 +28,7 @@ ex3 = Func IntTy "sum" [Param (NamedTy "int*") "arr"]
           ])
 
 toCStr = Text.unpack . toC . transform
-toLispStr = Text.unpack . toLisp 0
+toLispStr = Text.unpack . toLisp 0 . transform
 
 main :: IO ()
 main = do
@@ -41,7 +41,7 @@ main = do
   -- putStrLn "------"
   -- putStrLn (toLispStr ex1)
   -- putStrLn "---"
-  -- putStrLn (toLispStr ex2)
-  -- putStrLn "---"
+  putStrLn (toLispStr ex2)
+  putStrLn "---"
   -- putStrLn (toLispStr ex3)
   -- putStrLn "---"
