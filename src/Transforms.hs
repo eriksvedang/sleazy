@@ -31,7 +31,12 @@ xTransform =
 --   (Param IntTy "x")
 --   (Param FloatTy "X")
 
-transforms = [unlessTransform, xTransform]
+matchTransform =
+  Transform
+  (Control "match" [LogicVar "expr"] (LogicVar "body"))
+  (Control "switch" [Call "." [LogicVar "expr", Name "_TAG"]] (LogicVar "body"))
+
+transforms = [unlessTransform, xTransform, matchTransform]
 
 transform :: AST -> AST
 transform ast =

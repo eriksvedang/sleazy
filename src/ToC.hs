@@ -63,4 +63,5 @@ callMode functionName =
                                 , ("<=", Binary)
                                 , (">", Binary)
                                 , (">=", Binary)
+                                , (".", Binary)
                                 ]

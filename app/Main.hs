@@ -27,6 +27,9 @@ ex3 = Func IntTy "sum" [Param (NamedTy "int*") "arr"]
           , Return (Name "total")
           ])
 
+ex4 = Control "match" [Name "color"]
+      (Do [])
+
 toCStr = Text.unpack . toC . transform
 toLispStr = Text.unpack . toLisp 0 . transform
 
@@ -34,14 +37,16 @@ main :: IO ()
 main = do
   -- putStrLn "---"
   -- putStrLn (toCStr ex1)
-  putStrLn "---"
-  putStrLn (toCStr ex2)
-  putStrLn "---"
+  -- putStrLn "---"
+  -- putStrLn (toCStr ex2)
+  -- putStrLn "---"
   -- putStrLn (toCStr ex3)
-  -- putStrLn "------"
+  putStrLn "------"
+  putStrLn (toCStr ex4)
+  putStrLn "------"
   -- putStrLn (toLispStr ex1)
   -- putStrLn "---"
-  putStrLn (toLispStr ex2)
-  putStrLn "---"
+  -- putStrLn (toLispStr ex2)
+  -- putStrLn "---"
   -- putStrLn (toLispStr ex3)
   -- putStrLn "---"
